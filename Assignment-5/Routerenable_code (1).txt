@@ -1,0 +1,35 @@
+Router>enable
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface g0/0/0
+Router(config-if)#ip address 192.168.1.1 255.255.255.0
+Router(config-if)#no shutdown
+
+Router(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/0, changed state to up
+exit
+Router(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.10
+Router(config)#ip dhcp MY_POOL
+                       ^
+% Invalid input detected at '^' marker.
+	
+Router(config)#ip dhcp POOL MY_POOL
+Router(dhcp-config)#network 192.168.1.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.1.1
+Router(dhcp-config)#dns-server 192.168.1.10
+Router(dhcp-config)#exit
+Router(config)#end
+Router#
+%SYS-5-CONFIG_I: Configured from console by console
+write memory
+Building configuration...
+[OK]
+Router#show ip dhcp binding
+IP address       Client-ID/              Lease expiration        Type
+                 Hardware address
+192.168.1.11     0006.2A12.AD50           --                     Automatic
+192.168.1.12     0060.70AB.654D           --                     Automatic
+192.168.1.13     0001.6320.C474           --                     Automatic
+Router#
